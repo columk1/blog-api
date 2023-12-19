@@ -39,7 +39,7 @@ userSchema.statics.findByLogin = async function (login) {
 
 // A pre hook to our user schema to remove all messages of this user on its deletion. You don't need to call next when using await.
 userSchema.pre('deleteOne', { document: true, query: false }, async function () {
-  await this.model('Message').deleteMany({ user: this._id })
+  await this.model('Post').deleteMany({ author: this._id })
 })
 
 const User = mongoose.model('User', userSchema)

@@ -1,4 +1,21 @@
 import { Schema, model } from 'mongoose'
+import { Marked } from 'marked'
+import { markedHighlight } from 'marked-highlight'
+import hljs from 'highlight.js'
+import createDomPurify from 'dompurify'
+import { JSDOM } from 'jsdom'
+
+const dompurify = createDomPurify(new JSDOM().window)
+
+const marked = new Marked(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+      return hljs.highlight(code, { language }).value
+    },
+  })
+)
 
 // prettier-ignore
 export const categories = ['JavaScript', 'HTML', 'CSS', 'React', 'Node', 'Express', 'MongoDB', 'Career', 'Animation','Other']
@@ -9,7 +26,7 @@ const postSchema = new Schema(
     title: { type: String, required: [true, 'Title is required'] },
     image_url: { type: String },
     image_credit: { type: String },
-    content: {
+    markdown: {
       type: String,
       required: [true, 'Content is required'],
     },
@@ -17,13 +34,25 @@ const postSchema = new Schema(
     comment_count: { type: Number, default: 0 },
     is_published: { type: Boolean, default: false },
     is_featured: { type: Boolean, default: false },
+    slug: { type: String, required: true, unique: true },
+    sanitized_html: { type: String, required: true },
   },
   { timestamps: true }
 )
 
-postSchema.virtual('slug').get(function () {
-  return slugify(this.title)
+postSchema.pre('validate', function (next) {
+  if (this.title) {
+    this.slug = slugify(this.title)
+  }
+  if (this.markdown) {
+    this.sanitized_html = dompurify.sanitize(marked.parse(this.markdown))
+  }
+  next()
 })
+
+// postSchema.virtual('slug').get(function () {
+//   return slugify(this.title)
+// })
 
 function slugify(str) {
   return String(str)
