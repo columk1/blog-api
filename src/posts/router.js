@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getMany, getOne, createOne, updateOne, deleteOne } from './posts_controller.js'
+import { getMany, getOne, createOne, updateOne, deleteOne } from './controller.js'
 
 const router = Router()
 
