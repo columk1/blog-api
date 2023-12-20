@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config()
 
 import User from './user.js'
 import Post from './post.js'
@@ -9,9 +11,8 @@ const eraseDatabaseOnSync = true
 export const connectDb = async () => {
   mongoose.connect(process.env.DATABASE_URL).then(async () => {
     if (eraseDatabaseOnSync) {
-      const user = await User.findOne()
+      const user = await User.findOne() // Only one user
       if (user) await user.deleteOne()
-      // setTimeout(populateDb, 1000)
       populateDb()
     }
   })
@@ -20,7 +21,7 @@ export const connectDb = async () => {
 const populateDb = async () => {
   const user = new User({
     username: 'columk',
-    password: 'password',
+    password: process.env.USER_PASSWORD,
     role: 'admin',
   })
   await user.save()

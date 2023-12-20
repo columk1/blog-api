@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Password is required'],
       minLength: 6,
-      maxLength: 24,
+      maxLength: 96,
     },
     role: { type: String, enum: roles, default: 'user' },
     avatar: { type: String },

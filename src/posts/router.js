@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import { getMany, getOne, createOne, updateOne, deleteOne, getTestHtml } from './controller.js'
+import { authenticate } from '../auth/controller.js'
 
 const router = Router()
 
-router.route('/').get(getMany).post(createOne)
+router.route('/').get(getMany).post(authenticate, createOne)
 
 router.route('/test').get(getTestHtml)
 
