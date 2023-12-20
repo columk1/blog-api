@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 // Test function to see if the html string will render
 export const getTestHtml = async (req, res, next) => {
   try {
-    const post = await mongoose.model('Post').findOne({})
+    const post = await mongoose.model('Post').findOne()
     console.log({ post })
     res.setHeader('Content-Type', 'text/html')
     res.send(post.sanitized_html)
