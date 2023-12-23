@@ -1,21 +1,8 @@
 import mongoose from 'mongoose'
 
-// Test function to see if the html string will render
-export const getTestHtml = async (req, res, next) => {
-  try {
-    const post = await mongoose.model('Post').findOne()
-    console.log({ post })
-    res.setHeader('Content-Type', 'text/html')
-    res.send(post.sanitized_html)
-  } catch (err) {
-    res.status(500)
-    next(err)
-  }
-}
-
 export const getMany = async (req, res, next) => {
   try {
-    const posts = await mongoose.model('Post').find()
+    const posts = await mongoose.model('Post').find({}).populate('author', 'username')
     if (!posts) return res.status(404).json({ message: 'No posts found' })
     return res.status(200).json({ data: posts })
   } catch (err) {

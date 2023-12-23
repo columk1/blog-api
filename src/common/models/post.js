@@ -1,29 +1,14 @@
 import { Schema, model } from 'mongoose'
-import { Marked } from 'marked'
-import { markedHighlight } from 'marked-highlight'
-import hljs from 'highlight.js'
-import createDomPurify from 'dompurify'
-import { JSDOM } from 'jsdom'
-
-const dompurify = createDomPurify(new JSDOM().window)
-
-const marked = new Marked(
-  markedHighlight({
-    langPrefix: 'hljs language-',
-    highlight(code, lang, info) {
-      const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-      return hljs.highlight(code, { language }).value
-    },
-  })
-)
+import { DateTime } from 'luxon'
 
 // prettier-ignore
-export const categories = ['JavaScript', 'HTML', 'CSS', 'React', 'Node', 'Express', 'MongoDB', 'Career', 'Animation','Other']
+export const categories = ['JavaScript', 'HTML', 'CSS', 'React', 'NodeJS', 'Express', 'MongoDB', 'PassportJS', 'Career', 'Animation','Other']
 
 const postSchema = new Schema(
   {
     author: { type: Schema.Types.ObjectId, ref: 'User', required: [true, 'Author is required'] },
     title: { type: String, required: [true, 'Title is required'] },
+    description: { type: String, required: [true, 'Description is required'] },
     image_url: { type: String },
     image_credit: { type: String },
     markdown: {
@@ -35,9 +20,12 @@ const postSchema = new Schema(
     is_published: { type: Boolean, default: false },
     is_featured: { type: Boolean, default: false },
     slug: { type: String, required: true, unique: true },
-    sanitized_html: { type: String, required: true },
+    reading_length: { type: Number },
+    sanitized_html: { type: String },
+    formatted_date: { type: String },
   },
   { timestamps: true }
+  // { toObject: { virtuals: true }, toJSON: { virtuals: true } }
 )
 
 postSchema.pre('validate', function (next) {
@@ -45,13 +33,24 @@ postSchema.pre('validate', function (next) {
     this.slug = slugify(this.title)
   }
   if (this.markdown) {
-    this.sanitized_html = dompurify.sanitize(marked.parse(this.markdown))
+    // this.sanitized_html = dompurify.sanitize(marked.parse(this.markdown))
+    this.reading_length = Math.ceil(this.markdown.split(/\b\w+\b/g).length / 200)
   }
   next()
 })
 
-// postSchema.virtual('slug').get(function () {
-//   return slugify(this.title)
+postSchema.pre('save', function (next) {
+  this.formatted_date = this.createdAt
+    ? DateTime.fromJSDate(this.createdAt).toLocaleString({
+        month: 'short',
+        day: '2-digit',
+      })
+    : ''
+  next()
+})
+
+// postSchema.virtual('formatted_date').get(function () {
+//   return this.createdAt ? DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED) : ''
 // })
 
 function slugify(str) {
@@ -68,3 +67,21 @@ function slugify(str) {
 const Post = model('Post', postSchema)
 
 export default Post
+
+// import { Marked } from 'marked'
+// import { markedHighlight } from 'marked-highlight'
+// import hljs from 'highlight.js'
+// import createDomPurify from 'dompurify'
+// import { JSDOM } from 'jsdom'
+
+// const dompurify = createDomPurify(new JSDOM().window)
+
+// const marked = new Marked(
+//   markedHighlight({
+//     langPrefix: 'hljs language-',
+//     highlight(code, lang, info) {
+//       const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+//       return hljs.highlight(code, { language }).value
+//     },
+//   })
+// )
