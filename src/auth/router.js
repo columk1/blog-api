@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { login } from './controller.js'
+import { login, refresh } from './controller.js'
 
 const router = new Router()
 
-router.route('/').post(login)
+router.route('/login').post(login)
+router.route('/refresh').post(refresh)
 
 export default router

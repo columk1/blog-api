@@ -1,6 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import cookies from 'cookie-parser'
 
 import authRouter from './auth/router.js'
 import postsRouter from './posts/router.js'
@@ -14,9 +15,10 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(cookies())
 
 // Routes
-app.use('/api/login', authRouter)
+app.use('/api/auth', authRouter)
 app.use('/api/posts', postsRouter)
 app.use('/api/comments', commentsRouter)
 

@@ -8,6 +8,8 @@ dotenv.config()
 
 passport.use(JwtStrategy)
 
+const secret = process.env.JWT_SECRET
+
 export const login = async (req, res, next) => {
   try {
     console.log(req.body)
@@ -19,19 +21,71 @@ export const login = async (req, res, next) => {
     // Check password
     const match = await bcrypt.compare(password, user.password)
     if (!match) return res.status(401).json({ message: 'Incorrect password' })
-    const options = { expiresIn: 120 }
-    const secret = process.env.JWT_SECRET
-    const token = jwt.sign({ username }, secret, options)
-    return res.status(200).json({ message: 'Login Auth Passed', token })
+    const accessToken = jwt.sign({ username }, secret, { expiresIn: 120 })
+    const refreshToken = jwt.sign({ username }, secret, { expiresIn: '1d' })
+    return res
+      .status(200)
+      .cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' })
+      .header('Authorization', accessToken)
+      .json({ message: 'Login Auth Passed' })
   } catch (err) {
     res.status(500)
     next(err)
   }
 }
 
-export const authenticate = (req, res, next) => {
+export const refresh = async (req, res) => {
+  console.log(req.cookies)
+  const refreshToken = req.cookies['refreshToken']
+  if (!refreshToken) {
+    return res.status(401).json({ message: 'Access Denied. No refresh token provided' })
+  }
+  try {
+    const decoded = jwt.verify(refreshToken, secret)
+    console.log({ decoded })
+    const accessToken = jwt.sign({ username: decoded.username }, secret, { expiresIn: 120 })
+
+    res.header('Authorization', accessToken).json({ message: 'Token refreshed' })
+  } catch (err) {
+    return res.status(400).json({ message: 'Invalid refresh token' })
+  }
+}
+
+export const authenticate = async (req, res, next) => {
   console.log('Authenticating...')
   console.log(req.headers)
-  passport.authenticate('jwt', { session: false })(req, res, next)
+  const accessToken = req.headers['authorization'].split(' ')[1]
+  const refreshToken = req.cookies['refreshToken']
+  if (!accessToken && !refreshToken) {
+    return res.status(401).json({ message: 'No access token or refresh token provided' })
+  }
+  try {
+    const decoded = jwt.verify(accessToken, secret)
+    // Todo: Change to check role
+    if (decoded.username !== 'columk') {
+      return res.status(401).json({ message: 'Invalid refresh token' })
+    }
+    req.username = decoded.username
+    next()
+  } catch (err) {
+    if (!refreshToken) {
+      return res.status(401).json({ message: 'No refresh token provided' })
+    }
+    try {
+      const decoded = jwt.verify(refreshToken, secret)
+      // Todo: Change to check role
+      if (decoded.username !== 'columk') {
+        return res.status(401).json({ message: 'Invalid refresh token' })
+      }
+      const accessToken = jwt.sign({ username: decoded.username }, secret, { expiresIn: 120 })
+      res
+        .cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' })
+        .header('Authorization', accessToken)
+        .json({ message: 'Auth Passed with refresh token' })
+    } catch (err) {
+      return res.status(400).json({ message: 'Invalid refresh token' })
+    }
+  }
+  // passport.authenticate('jwt', { session: false })(req, res, next)
 }
 // (req, res) => res.status(200).json({ message: 'Middleware Auth Passed' })
