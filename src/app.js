@@ -11,7 +11,13 @@ import errorHandler from './common/middleware/error_handler.js'
 
 const app = express()
 
-app.use(cors())
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+    credentials: true,
+    exposedHeaders: ['Authorization'],
+  })
+)
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

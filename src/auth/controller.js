@@ -26,7 +26,7 @@ export const login = async (req, res, next) => {
     return res
       .status(200)
       .cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' })
-      .header('Authorization', accessToken)
+      .header('Authorization', `Bearer ${accessToken}`)
       .json({ message: 'Login Auth Passed' })
   } catch (err) {
     res.status(500)
@@ -45,7 +45,7 @@ export const refresh = async (req, res) => {
     console.log({ decoded })
     const accessToken = jwt.sign({ username: decoded.username }, secret, { expiresIn: 120 })
 
-    res.header('Authorization', accessToken).json({ message: 'Token refreshed' })
+    res.header('Authorization', `Bearer ${accessToken}`).json({ message: 'Token refreshed' })
   } catch (err) {
     return res.status(400).json({ message: 'Invalid refresh token' })
   }
@@ -80,7 +80,7 @@ export const authenticate = async (req, res, next) => {
       const accessToken = jwt.sign({ username: decoded.username }, secret, { expiresIn: 120 })
       res
         .cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' })
-        .header('Authorization', accessToken)
+        .header('Authorization', `Bearer ${accessToken}`)
         .json({ message: 'Auth Passed with refresh token' })
     } catch (err) {
       return res.status(400).json({ message: 'Invalid refresh token' })
