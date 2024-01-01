@@ -9,7 +9,7 @@ const postSchema = new Schema(
     author: { type: Schema.Types.ObjectId, ref: 'User', required: [true, 'Author is required'] },
     title: { type: String, required: [true, 'Title is required'] },
     description: { type: String, required: [true, 'Description is required'] },
-    image_url: { type: String },
+    imageUrl: { type: String },
     image_credit: { type: String },
     markdown: {
       type: String,
@@ -17,12 +17,12 @@ const postSchema = new Schema(
     },
     tags: [{ type: String, enum: categories }],
     comment_count: { type: Number, default: 0 },
-    is_published: { type: Boolean, default: false },
-    is_featured: { type: Boolean, default: false },
+    isPublished: { type: Boolean, default: false },
+    isFeatured: { type: Boolean, default: false },
     slug: { type: String, required: true, unique: true },
-    reading_length: { type: Number },
-    sanitized_html: { type: String },
-    formatted_date: { type: String },
+    readingLength: { type: Number },
+    sanitizedHtml: { type: String },
+    formattedDate: { type: String },
   },
   { timestamps: true }
   // { toObject: { virtuals: true }, toJSON: { virtuals: true } }
@@ -34,13 +34,13 @@ postSchema.pre('validate', function (next) {
   }
   if (this.markdown) {
     // this.sanitized_html = dompurify.sanitize(marked.parse(this.markdown))
-    this.reading_length = Math.ceil(this.markdown.split(/\b\w+\b/g).length / 200)
+    this.readingLength = Math.ceil(this.markdown.split(/\b\w+\b/g).length / 200)
   }
   next()
 })
 
 postSchema.pre('save', function (next) {
-  this.formatted_date = this.createdAt
+  this.formattedDate = this.createdAt
     ? DateTime.fromJSDate(this.createdAt).toLocaleString({
         month: 'short',
         day: '2-digit',

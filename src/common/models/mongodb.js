@@ -53,9 +53,9 @@ const populateDb = async () => {
     title: 'React Router',
     description:
       'Learn the basics of the React Router library and how to use it in your next project.',
-    image_url:
+    imageUrl:
       'https://www.theodinproject.com/assets/og-logo-dc2c719e367496ffaee876882b3f62c9b139279824de6a6e16448398fa513f7a.png',
-    image_credit: 'https://www.theodinproject.com',
+    imageCredit: 'https://www.theodinproject.com',
     markdown: data1,
     tags: ['React', 'JavaScript'],
   })
@@ -66,9 +66,9 @@ const populateDb = async () => {
     title: 'Using Flexbox and Grid',
     description:
       'Flexbox and Grid are two of the most powerful CSS layout properties you can use. In this article, you will learn how to use both to create beautiful andresponsive layouts.',
-    image_url:
+    imageUrl:
       'https://www.theodinproject.com/assets/og-logo-dc2c719e367496ffaee876882b3f62c9b139279824de6a6e16448398fa513f7a.png',
-    image_credit: 'https://www.theodinproject.com',
+    imageCredit: 'https://www.theodinproject.com',
     markdown: data2,
     tags: ['HTML', 'CSS'],
   })
@@ -79,9 +79,9 @@ const populateDb = async () => {
     title: 'Authentication Basics',
     description:
       'Authentication can be a complex topic. In this article, you will learn how to create a simple authentication system using Passport.js and MongoDB.',
-    image_url:
+    imageUrl:
       'https://www.theodinproject.com/assets/og-logo-dc2c719e367496ffaee876882b3f62c9b139279824de6a6e16448398fa513f7a.png',
-    image_credit: 'https://www.theodinproject.com',
+    imageCredit: 'https://www.theodinproject.com',
     markdown: data3,
     tags: ['NodeJS', 'Express', 'PassportJS', 'MongoDB'],
   })

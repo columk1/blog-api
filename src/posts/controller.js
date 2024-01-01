@@ -26,6 +26,7 @@ export const getOne = async (req, res, next) => {
 export const createOne = [
   body('title', 'Title is required').trim().notEmpty().escape(),
   body('description', 'Description is required').trim().notEmpty().escape(),
+  body('tags', 'Tags are required').trim().notEmpty().escape(),
   body('markdown', 'Markdown is required').trim().notEmpty().escape(),
   body('isPublished')
     .optional({ values: undefined })
@@ -46,12 +47,12 @@ export const createOne = [
         author,
         title,
         description,
-        image_url: imageUrl,
-        image_credit: imageCredit,
+        imageUrl,
+        imageCredit,
         // markdown,
         markdown: sanitizedMarkdown,
         tags: tagsArray,
-        is_published: isPublished,
+        isPublished,
       })
       return res.status(201).json({ data: newPost })
     } catch (err) {
