@@ -6,6 +6,6 @@ const router = Router()
 
 router.route('/').get(getMany).post(authenticate, createOne)
 
-router.route('/:id').get(getOne).put(updateOne).delete(deleteOne)
+router.route('/:id').get(getOne).put(authenticate, updateOne).delete(authenticate, deleteOne)
 
 export default router
