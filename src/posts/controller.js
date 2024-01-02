@@ -48,8 +48,7 @@ export const createOne = [
 
       const { title, description, imageUrl, imageCredit, markdown, tags, isPublished } = req.body
 
-      // const author = await mongoose.model('User').findOne({ username: req.user })
-      const author = req.user
+      const author = await mongoose.model('User').findOne({ username: req.user })
       const tagsArray = tags.split(',')
       let sanitizedMarkdown = he.escape(markdown)
 
