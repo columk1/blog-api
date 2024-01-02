@@ -10,11 +10,16 @@ dotenv.config()
 passport.use(JwtStrategy)
 
 const secret = process.env.JWT_SECRET
-const cookieOptions = { httpOnly: true, secure: true, sameSite: 'none' }
+const accessCookieOptions = { httpOnly: true, secure: true, sameSite: 'none' }
+const refreshCookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',
+  path: '/api/auth/refresh',
+}
 
 export const login = async (req, res, next) => {
   try {
-    console.log(req.body)
     const { username, password } = req.body
     console.log(username)
     const user = await mongoose.model('User').findOne({ username })
@@ -29,8 +34,8 @@ export const login = async (req, res, next) => {
     const refreshToken = jwt.sign({ username }, secret, { expiresIn: '1d', jwtid: jti })
     return res
       .status(200)
-      .cookie('accessToken', accessToken, cookieOptions)
-      .cookie('refreshToken', refreshToken, { ...cookieOptions, path: '/api/auth/refresh' })
+      .cookie('accessToken', accessToken, accessCookieOptions)
+      .cookie('refreshToken', refreshToken, refreshCookieOptions)
       .json({ message: 'Login Auth Passed', user: username })
   } catch (err) {
     res.status(500)
@@ -42,8 +47,8 @@ export const logout = async (req, res, next) => {
   try {
     res
       .status(204)
-      .clearCookie('accessToken', cookieOptions)
-      .clearCookie('refreshToken', cookieOptions)
+      .clearCookie('accessToken', accessCookieOptions)
+      .clearCookie('refreshToken', refreshCookieOptions)
       .json({ message: 'Logged out' })
   } catch (err) {
     res.status(500)
@@ -52,7 +57,7 @@ export const logout = async (req, res, next) => {
 }
 
 export const refresh = async (req, res) => {
-  console.log(req.host)
+  // console.log(req.host)
   console.log(req.cookies)
   const refreshToken = req.cookies['refreshToken']
   if (!refreshToken) {
@@ -70,8 +75,8 @@ export const refresh = async (req, res) => {
       })
       res
         .status(200)
-        .cookie('accessToken', accessToken, cookieOptions)
-        .cookie('refreshToken', refreshToken, { ...cookieOptions, path: '/api/auth/refresh' })
+        .cookie('accessToken', accessToken, accessCookieOptions)
+        .cookie('refreshToken', refreshToken, refreshCookieOptions)
         .json({ message: 'Token refreshed', user: decoded.username })
     })
   } catch (err) {
