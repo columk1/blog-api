@@ -24,8 +24,7 @@ const postSchema = new Schema(
     sanitizedHtml: { type: String },
     formattedDate: { type: String },
   },
-  { timestamps: true },
-  { toJSON: { virtuals: true }, versionKey: false }
+  { timestamps: true, toJSON: { virtuals: true }, versionKey: false }
 )
 
 postSchema.pre('validate', function (next) {
