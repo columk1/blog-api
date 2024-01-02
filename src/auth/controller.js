@@ -81,7 +81,7 @@ export const refresh = async (req, res) => {
 
 export const authenticate = async (req, res, next) => {
   console.log('Authenticating...')
-  console.log(req.headers)
+  // console.log(req.headers)
   const accessToken = req.cookies?.['accessToken']
   if (!accessToken) {
     return res.status(400).json({ message: 'No access token provided' })

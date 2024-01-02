@@ -10,13 +10,13 @@ const postSchema = new Schema(
     title: { type: String, required: [true, 'Title is required'] },
     description: { type: String, required: [true, 'Description is required'] },
     imageUrl: { type: String },
-    image_credit: { type: String },
+    imageCredit: { type: String },
     markdown: {
       type: String,
       required: [true, 'Content is required'],
     },
     tags: [{ type: String, enum: categories }],
-    comment_count: { type: Number, default: 0 },
+    commentCount: { type: Number, default: 0 },
     isPublished: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },
     slug: { type: String, required: true, unique: true },
@@ -24,8 +24,8 @@ const postSchema = new Schema(
     sanitizedHtml: { type: String },
     formattedDate: { type: String },
   },
-  { timestamps: true }
-  // { toObject: { virtuals: true }, toJSON: { virtuals: true } }
+  { timestamps: true },
+  { toJSON: { virtuals: true }, versionKey: false }
 )
 
 postSchema.pre('validate', function (next) {
@@ -33,7 +33,6 @@ postSchema.pre('validate', function (next) {
     this.slug = slugify(this.title)
   }
   if (this.markdown) {
-    // this.sanitized_html = dompurify.sanitize(marked.parse(this.markdown))
     this.readingLength = Math.ceil(this.markdown.split(/\b\w+\b/g).length / 200)
   }
   next()
@@ -49,10 +48,6 @@ postSchema.pre('save', function (next) {
   next()
 })
 
-// postSchema.virtual('formatted_date').get(function () {
-//   return this.createdAt ? DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED) : ''
-// })
-
 function slugify(str) {
   return String(str)
     .normalize('NFKD') // split accented characters into their base characters and diacritical marks
@@ -67,21 +62,3 @@ function slugify(str) {
 const Post = model('Post', postSchema)
 
 export default Post
-
-// import { Marked } from 'marked'
-// import { markedHighlight } from 'marked-highlight'
-// import hljs from 'highlight.js'
-// import createDomPurify from 'dompurify'
-// import { JSDOM } from 'jsdom'
-
-// const dompurify = createDomPurify(new JSDOM().window)
-
-// const marked = new Marked(
-//   markedHighlight({
-//     langPrefix: 'hljs language-',
-//     highlight(code, lang, info) {
-//       const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-//       return hljs.highlight(code, { language }).value
-//     },
-//   })
-// )
