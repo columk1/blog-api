@@ -119,11 +119,11 @@ export const updateOne = [
   },
 ]
 
-export const deleteOne = async (res, req, next) => {
+export const deleteOne = async (req, res, next) => {
   try {
     const id = req.params.id
-    const deletedPost = await mongoose.model('Post').findByIdAndDelete(id)
-    return res.status(204).json({ data: deletedPost })
+    await mongoose.model('Post').findByIdAndDelete(id)
+    return res.status(204).json('Message deleted')
   } catch (err) {
     res.status(500)
     next(err)
