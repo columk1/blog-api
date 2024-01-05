@@ -43,7 +43,7 @@ export const createOne = [
     try {
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
-        return res.status(401).json({ errors: errors.array() })
+        return res.status(400).json({ message: errors.array()[0].msg })
       }
 
       const { title, description, imageUrl, imageCredit, markdown, tags, isPublished } = req.body
@@ -86,7 +86,7 @@ export const updateOne = [
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
         console.log(errors)
-        return res.status(401).json({ errors: errors.array() })
+        return res.status(400).json({ message: errors.array()[0].msg })
       }
 
       const { title, description, imageUrl, imageCredit, markdown, tags, isPublished } = req.body
@@ -118,6 +118,25 @@ export const updateOne = [
     }
   },
 ]
+
+export const togglePublish = async (req, res, next) => {
+  try {
+    const updatedPost = await mongoose
+      .model('Post')
+      .findByIdAndUpdate(
+        req.params.id,
+        { isPublished: req.query.publish === 'true' },
+        { new: true }
+      )
+      .populate('author', 'username')
+      .exec()
+
+    return res.status(200).json(updatedPost)
+  } catch (err) {
+    res.status(500)
+    next(err)
+  }
+}
 
 export const deleteOne = async (req, res, next) => {
   try {

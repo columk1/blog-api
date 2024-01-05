@@ -73,7 +73,7 @@ export const refresh = async (req, res) => {
         expiresIn: '1d',
         jwtid: jti,
       })
-      res
+      return res
         .status(200)
         .cookie('accessToken', accessToken, accessCookieOptions)
         .cookie('refreshToken', refreshToken, refreshCookieOptions)
