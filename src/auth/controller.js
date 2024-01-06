@@ -21,7 +21,7 @@ const refreshCookieOptions = {
 export const login = async (req, res, next) => {
   try {
     const { username, password } = req.body
-    console.log(username)
+    // console.log(username)
     const user = await mongoose.model('User').findOne({ username })
     if (!user) return res.status(401).json({ message: 'User not found' })
     if (!password) return res.status(401).json({ message: 'Password required' })
@@ -30,7 +30,7 @@ export const login = async (req, res, next) => {
     if (!match) return res.status(401).json({ message: 'Incorrect password' })
     // Generate tokens
     const jti = uuidv4()
-    const accessToken = jwt.sign({ username }, secret, { expiresIn: '1m' })
+    const accessToken = jwt.sign({ username }, secret, { expiresIn: '3m' })
     const refreshToken = jwt.sign({ username }, secret, { expiresIn: '1d', jwtid: jti })
     return res
       .status(200)
@@ -58,7 +58,7 @@ export const logout = async (req, res, next) => {
 
 export const refresh = async (req, res) => {
   // console.log(req.host)
-  console.log(req.cookies)
+  // console.log(req.cookies)
   const refreshToken = req.cookies['refreshToken']
   if (!refreshToken) {
     return res.status(401).json({ message: 'Access Denied. No refresh token provided' })
@@ -66,7 +66,7 @@ export const refresh = async (req, res) => {
   try {
     console.log('Refreshing...')
     jwt.verify(refreshToken, secret, function (err, decoded) {
-      console.log({ decoded })
+      // console.log({ decoded }) // log jwt payload
       const jti = uuidv4()
       const accessToken = jwt.sign({ username: decoded.username }, secret, { expiresIn: '1m' })
       const refreshToken = jwt.sign({ username: decoded.username }, secret, {
