@@ -9,7 +9,8 @@ import Post from './post.js'
 
 const eraseDatabaseOnSync = process.env.NODE_ENV === 'development'
 
-const devDbUri = ''
+const devDbUri =
+  'mongodb+srv://admin:5j1JipXE7inXLEpa@cluster0.mzawhit.mongodb.net/?retryWrites=true&w=majority'
 
 const mongoUri = process.env.DATABASE_URL || devDbUri
 
