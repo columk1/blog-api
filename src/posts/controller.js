@@ -31,10 +31,10 @@ export const getOne = async (req, res, next) => {
 export const createOne = [
   body('title', 'Title is required').trim().notEmpty().escape(),
   body('description', 'Description is required').trim().notEmpty().escape(),
-  body('imageUrl').trim().escape(),
+  body('imageUrl').trim().optional({ values: 'falsy' }).isURL(),
   body('imageCredit').trim().escape(),
   body('tags', 'Tags are required').trim().notEmpty().escape(),
-  body('markdown', 'Markdown is required').trim().notEmpty().escape(),
+  body('markdown', 'Markdown is required').trim().notEmpty(),
   body('isPublished')
     .optional({ values: undefined })
     .custom((value) => !!value),

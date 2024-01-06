@@ -32,7 +32,7 @@ app.use('/api/posts', postsRouter)
 app.use('/api/comments', commentsRouter)
 
 app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Express API Starter' })
+  res.status(200).json({ message: 'Blog API' })
 })
 
 // 404

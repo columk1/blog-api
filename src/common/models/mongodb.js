@@ -17,7 +17,7 @@ export const connectDb = async () => {
   mongoose.connect(mongoUri || devDbUri).then(async () => {
     if (eraseDatabaseOnSync) {
       const user = await User.findOne() // Only one user
-      if (user) await user.deleteOne()
+      if (user) await user.deleteOne() // Removes user and all posts linked to user
       populateDb()
     }
   })
@@ -26,7 +26,7 @@ export const connectDb = async () => {
 const populateDb = async () => {
   const user = new User({
     username: 'columk',
-    password: process.env.USER_PASSWORD,
+    password: process.env.ADMIN_PASSWORD,
     role: 'admin',
   })
   await user.save()
