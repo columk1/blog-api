@@ -14,7 +14,11 @@ const app = express()
 
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'http://localhost:4000'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:4000',
+      'https://columk-blog-cms.netlify.app',
+    ],
     credentials: true,
     exposedHeaders: ['Authorization'],
   })
