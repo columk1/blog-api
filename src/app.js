@@ -2,6 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import cookies from 'cookie-parser'
+import helmet from 'helmet'
 
 import authRouter from './auth/router.js'
 import postsRouter from './posts/router.js'
@@ -18,6 +19,8 @@ app.use(
     exposedHeaders: ['Authorization'],
   })
 )
+
+app.use(helmet())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

@@ -27,7 +27,7 @@ export const getOne = async (req, res, next) => {
   }
 }
 
-// TODO: Import tags from model and validate them
+// TODO: Import allowed tags from model and validate them
 export const createOne = [
   body('title', 'Title is required').trim().notEmpty().escape(),
   body('description', 'Description is required').trim().notEmpty().escape(),

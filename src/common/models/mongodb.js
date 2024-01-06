@@ -7,10 +7,14 @@ import User from './user.js'
 import Post from './post.js'
 // import Comment from './comment'
 
-const eraseDatabaseOnSync = true
+const eraseDatabaseOnSync = process.env.NODE_ENV === 'development'
+
+const devDbUri = ''
+
+const mongoUri = process.env.DATABASE_URL || devDbUri
 
 export const connectDb = async () => {
-  mongoose.connect(process.env.DATABASE_URL).then(async () => {
+  mongoose.connect(mongoUri || devDbUri).then(async () => {
     if (eraseDatabaseOnSync) {
       const user = await User.findOne() // Only one user
       if (user) await user.deleteOne()
