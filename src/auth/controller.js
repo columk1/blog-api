@@ -36,7 +36,7 @@ export const login = async (req, res, next) => {
       .status(200)
       .cookie('accessToken', accessToken, accessCookieOptions)
       .cookie('refreshToken', refreshToken, refreshCookieOptions)
-      .json({ message: 'Login Auth Passed', user: username })
+      .json({ message: 'Login successful', user: username })
   } catch (err) {
     res.status(500)
     next(err)
