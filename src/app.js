@@ -19,6 +19,7 @@ app.use(
       'http://localhost:4000',
       'https://columk-blog-cms.netlify.app',
       'https://columk.netlify.app',
+      'https://columkelly.com',
     ],
     credentials: true,
     exposedHeaders: ['Authorization'],
