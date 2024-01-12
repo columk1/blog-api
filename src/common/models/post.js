@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 import { DateTime } from 'luxon'
 
 // prettier-ignore
-export const categories = ['JavaScript', 'HTML', 'CSS', 'React', 'NodeJS', 'Express', 'MongoDB', 'PassportJS', 'Career', 'Animation','Other']
+export const categories = ['JavaScript', 'HTML', 'CSS', 'React', 'NodeJS', 'Express', 'MongoDB', 'PassportJS', 'Career', 'Animation', 'Other']
 
 const postSchema = new Schema(
   {
@@ -42,6 +42,7 @@ postSchema.pre('save', function (next) {
     ? DateTime.fromJSDate(this.createdAt).toLocaleString({
         month: 'short',
         day: '2-digit',
+        year: 'numeric',
       })
     : ''
   next()
