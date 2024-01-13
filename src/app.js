@@ -18,6 +18,7 @@ app.use(
       'http://localhost:5173',
       'http://localhost:4000',
       'https://columk-blog-cms.netlify.app',
+      'https://cms.columkelly.com',
       'https://columk.netlify.app',
       'https://columkelly.com',
     ],
