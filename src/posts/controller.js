@@ -77,9 +77,7 @@ export const updateOne = [
   body('imageCredit').trim().escape(),
   body('tags', 'Tags are required').trim().notEmpty().escape(),
   body('markdown', 'Markdown is required').trim().notEmpty(),
-  body('isPublished')
-    .optional({ values: undefined })
-    .custom((value) => !!value),
+  body('isPublished').customSanitizer((value) => Boolean(value)),
 
   async (req, res, next) => {
     try {
