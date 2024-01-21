@@ -18,7 +18,8 @@
 
 ## About The Project
 
-[![Routes Screenshot][routes]](https://columkelly.com)
+<!-- [![Routes Screenshot][routes-screenshot]]() -->
+
 This is an API for my personal blog [columkelly.com](http://columkelly.com). It uses JWTs for authentication. A separate [CMS](https://github.com/columk1/blog-cms) is used for CRUD operations.
 
 **Related Repos**
@@ -57,8 +58,6 @@ npm install nodemon -g
    ```
 3. Copy the contents of `.env.sample` to `.env` and update the variables
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Usage
 
 Run `npm devstart` to start the server in development mode
@@ -90,4 +89,4 @@ Run `npm devstart` to start the server in development mode
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[home-screenshot]: screenshots/routes.png
+[routes-screenshot]: screenshots/routes.png
