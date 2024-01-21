@@ -17,7 +17,7 @@ const mongoUri = process.env.DATABASE_URL || devDbUri
 export const connectDb = async () => {
   mongoose.connect(mongoUri || devDbUri).then(async () => {
     if (eraseDatabaseOnSync) {
-      const user = await User.findOne() // Only one user
+      const user = await User.findOne() // Only one user, no query required
       if (user) await user.deleteOne() // Removes user and all posts linked to user
       populateDb()
     }
