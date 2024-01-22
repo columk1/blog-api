@@ -20,7 +20,7 @@
 
 <!-- [![Routes Screenshot][routes-screenshot]]() -->
 
-This is an API for my personal blog [columkelly.com](http://columkelly.com). It uses JWTs for authentication. A separate [CMS](https://github.com/columk1/blog-cms) is used for CRUD operations.
+This is an API for my personal blog [columkelly.com](https://columkelly.com). It uses JWTs for authentication. A separate [CMS](https://github.com/columk1/blog-cms) is used for CRUD operations.
 
 **Related Repos**
 [Blog CMS](https://github.com/columk1/blog-cms)
