@@ -39,15 +39,17 @@ postSchema.pre('validate', function (next) {
 
 // Pre-update hook to update the readingLength
 postSchema.pre('findOneAndUpdate', function (next) {
-  const newReadingLength = Math.ceil(this.getUpdate().markdown.split(/\b\w+\b/g).length / 200)
-  this.updateOne(
-    {},
-    {
-      $set: {
-        readingLength: newReadingLength,
-      },
-    }
-  )
+  if (this.getUpdate().markdown) {
+    const newReadingLength = Math.ceil(this.getUpdate().markdown.split(/\b\w+\b/g).length / 200)
+    this.updateOne(
+      {},
+      {
+        $set: {
+          readingLength: newReadingLength,
+        },
+      }
+    )
+  }
   next()
 })
 
