@@ -7,6 +7,7 @@ import User from './user.js'
 import Post from './post.js'
 // import Comment from './comment'
 
+// Set to false when testing CRUD operations
 const eraseDatabaseOnSync = process.env.NODE_ENV === 'development'
 
 const devDbUri =
