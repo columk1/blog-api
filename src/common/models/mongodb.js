@@ -64,6 +64,7 @@ const populateDb = async () => {
     imageCredit: 'https://www.theodinproject.com',
     markdown: data1,
     tags: ['React', 'JavaScript'],
+    isPublished: true,
   })
   await post.save()
 
@@ -77,6 +78,7 @@ const populateDb = async () => {
     imageCredit: 'https://www.theodinproject.com',
     markdown: data2,
     tags: ['HTML', 'CSS'],
+    isPublished: true,
   })
   await post2.save()
 
@@ -90,6 +92,7 @@ const populateDb = async () => {
     imageCredit: 'https://www.theodinproject.com',
     markdown: data3,
     tags: ['NodeJS', 'Express', 'PassportJS', 'MongoDB'],
+    isPublished: true,
   })
   await post3.save()
 }
