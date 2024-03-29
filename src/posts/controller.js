@@ -17,6 +17,21 @@ export const getMany = async (req, res, next) => {
   }
 }
 
+export const getManyPublic = async (req, res, next) => {
+  try {
+    const posts = await mongoose
+      .model('Post')
+      .find({ isPublished: true })
+      .populate('author', 'username')
+      .sort({ createdAt: -1 })
+    if (!posts) return res.status(404).json({ message: 'No posts found' })
+    return res.status(200).json(posts)
+  } catch (err) {
+    res.status(500)
+    next(err)
+  }
+}
+
 export const getOne = async (req, res, next) => {
   try {
     const post = await mongoose.model('Post').findById(req.params.id)

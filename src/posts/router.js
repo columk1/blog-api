@@ -1,10 +1,20 @@
 import { Router } from 'express'
-import { getMany, getOne, createOne, updateOne, togglePublish, deleteOne } from './controller.js'
+import {
+  getMany,
+  getManyPublic,
+  getOne,
+  createOne,
+  updateOne,
+  togglePublish,
+  deleteOne,
+} from './controller.js'
 import { authenticate } from '../auth/controller.js'
 
 const router = Router()
 
-router.route('/').get(getMany).post(authenticate, createOne)
+router.route('/').get(authenticate, getMany).post(authenticate, createOne)
+
+router.route('/public').get(getManyPublic) // Published posts only
 
 router
   .route('/:id')
