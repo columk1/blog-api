@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 import { DateTime } from 'luxon'
 
 // prettier-ignore
-export const categories = ['JavaScript', 'HTML', 'CSS', 'React', 'NodeJS', 'Express', 'MongoDB', 'PassportJS', 'Career', 'Animation', 'Other']
+export const categories = ['JavaScript', 'HTML', 'CSS', 'React', 'NodeJS', 'Express', 'MongoDB', 'PassportJS', 'Career', 'Animation', 'Typescript', 'NextJS', 'Personal', 'Prisma', 'Other']
 
 const postSchema = new Schema(
   {
