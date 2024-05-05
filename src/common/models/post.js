@@ -41,11 +41,13 @@ postSchema.pre('validate', function (next) {
 postSchema.pre('findOneAndUpdate', function (next) {
   if (this.getUpdate().markdown) {
     const newReadingLength = Math.ceil(this.getUpdate().markdown.split(/\b\w+\b/g).length / 200)
+    const newSlug = slugify(this.getUpdate().title)
     this.updateOne(
       {},
       {
         $set: {
           readingLength: newReadingLength,
+          slug: newSlug,
         },
       }
     )
