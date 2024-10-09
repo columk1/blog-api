@@ -34,10 +34,10 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-1. Install and use the correct version of Node using [NVM](https://github.com/nvm-sh/nvm)
+1. Install Node (v21 or higher) using [NVM](https://github.com/nvm-sh/nvm)
 
 ```sh
-nvm install 21.6.0
+nvm install 21
 ```
 
 2. Install Nodemon globally
@@ -64,17 +64,17 @@ Run `npm devstart` to start the server in development mode
 
 ### API Endpoints
 
-| HTTP Verbs | Endpoints         | Action                              |
-| ---------- | ----------------- | ----------------------------------- |
-| POST       | /api/auth/login   | To log in an existing user account  |
-| POST       | /api/auth/logout  | To log out a user who is logged in  |
-| POST       | /api/auth/refresh | To refresh a users JWT access token |
-| GET        | /api/posts/       | To retrieve all blog posts          |
-| POST       | /api/posts/       | To create a new blog post           |
-| GET        | /api/posts/:id    | To retrieve a single blog post      |
-| PUT        | /api/posts/:id    | To update a blog post               |
-| PATCH      | /api/posts/:id    | To publish or unpublish a blog post |
-| DELETE     | /api/posts/:id    | To delete a blog post               |
+| HTTP Verb  | Endpoint          | Action                           |
+| ---------- | ----------------- | ---------------------------------|
+| POST       | /api/auth/login   | Log in an existing user account  |
+| POST       | /api/auth/logout  | Log out a user who is logged in  |
+| POST       | /api/auth/refresh | Refresh a users JWT access token |
+| GET        | /api/posts/       | Retrieve all blog posts          |
+| POST       | /api/posts/       | Create a new blog post           |
+| GET        | /api/posts/:id    | Retrieve a single blog post      |
+| PUT        | /api/posts/:id    | Update a blog post               |
+| PATCH      | /api/posts/:id    | Publish or unpublish a blog post |
+| DELETE     | /api/posts/:id    | Delete a blog post               |
 
 <!-- ROADMAP -->
 
